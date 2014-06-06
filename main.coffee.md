@@ -27,7 +27,8 @@ Create an editor, send events back to parent.
     editor.on "dirty", ->
       data = editor.getProps()
 
-      postmaster.sendToParent data
+      postmaster.sendToParent
+        value: data
 
 Use the postmaster to send value to our parent, store our current value in it as well.
 
@@ -46,6 +47,9 @@ Expose a focus method to our parent.
     log = (data) ->
       postmaster.sendToParent
         log: data
+
+
+    global.postmaster = postmaster
 
 Demo
 ====
