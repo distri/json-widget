@@ -25,7 +25,10 @@ Create an editor, send events back to parent.
     (editor = $("<div>").propertyEditor(json)).appendTo(document.body)
 
     editor.on "dirty", ->
-      postmaster.sendToParent editor.getProps()
+      data = editor.getProps()
+
+      console.log data
+      postmaster.sendToParent data
 
 Use the postmaster to send value to our parent, store our current value in it as well.
 
@@ -44,3 +47,25 @@ Expose a focus method to our parent.
     log = (data) ->
       postmaster.sendToParent
         log: data
+
+Demo
+====
+
+>     #! setup
+>     ValueWidget = require "value-widget"
+>     iframe = document.createElement("iframe")
+>     editor = ValueWidget
+>       value:
+>         test: "data"
+>         array: [1, 2, 3]
+>         boolean: true
+>         nested:
+>           bro: "tura"
+>           yolo: "wat"
+>       iframe: iframe
+>       url: "http://distri.github.io/json-widget/"
+>
+>     document.body.appendChild iframe
+>     editor.observe (data) ->
+>       console.log data
+>       $(".content").last().text JSON.stringify(data)
