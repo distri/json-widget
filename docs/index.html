@@ -18,7 +18,7 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <h1 id="text-editor-value-widget">Text Editor Value Widget</h1>
+              <h1 id="json-value-widget">JSON Value Widget</h1>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">
@@ -34,7 +34,7 @@
               </div>
               
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">Observable = require <span class="string">"observable"</span>
+            <div class="content"><pre><code class="lang-coffeescript">global.Observable = require <span class="string">"observable"</span>
 {applyStylesheet} = require <span class="string">"util"</span></code></pre>
 </div>
         </li>
@@ -48,14 +48,23 @@
               <p>Create an editor, send events back to parent.</p>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">template = require <span class="string">"./editor"</span>
+            <div class="content"><pre><code class="lang-coffeescript">require <span class="string">"./lib/jquery.property_editor"</span>
 
-editor =
-  json: Observable(<span class="string">"{}"</span>)
+applyStylesheet(require <span class="string">"./style"</span>)
 
-document.body.appendChild(template())
+data =
+  test: <span class="string">"wat"</span>
+  yolo: <span class="string">"jawsome!"</span>
+  duder:
+    a: <span class="string">"radical"</span>
+    b: <span class="string">"!?!?"</span>
+    c: [
+      <span class="number">1</span>
+      <span class="number">2</span>
+      <span class="number">3</span>
+    ]
 
-applyStylesheet(require <span class="string">"./style"</span>)</code></pre>
+$(<span class="string">"&lt;table&gt;"</span>).propertyEditor(data).appendTo(document.body)</code></pre>
 </div>
         </li>
         
@@ -103,7 +112,8 @@ editor.json.observe (newValue) -&gt;
     </ul>
   </div>
   <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script><script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script><script>
   (function() {
   var ErrorReporter, bindUpdates, createEditor, exec, findInteractiveElements, readShebang, runners;
 
