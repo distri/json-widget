@@ -67,7 +67,10 @@ json =
 (editor = $(<span class="string">"&lt;div&gt;"</span>).propertyEditor(json)).appendTo(document.body)
 
 editor.<span class="literal">on</span> <span class="string">"dirty"</span>, -&gt;
-  postmaster.sendToParent editor.getProps()</code></pre>
+  data = editor.getProps()
+
+  console.log data
+  postmaster.sendToParent data</code></pre>
 </div>
         </li>
         
@@ -104,6 +107,53 @@ postmaster.<span class="function"><span class="title">value</span></span> = (new
 <span class="function"><span class="title">log</span></span> = (data) -&gt;
   postmaster.sendToParent
     log: data</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <h1 id="demo">Demo</h1>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <blockquote>
+<pre><code>#! setup
+ValueWidget = require &quot;value-widget&quot;
+iframe = document.createElement(&quot;iframe&quot;)
+editor = ValueWidget
+  value:
+    test: &quot;data&quot;
+    array: [1, 2, 3]
+    boolean: true
+    nested:
+      bro: &quot;tura&quot;
+      yolo: &quot;wat&quot;
+  iframe: iframe
+  url: &quot;http://distri.github.io/json-widget/&quot;
+
+document.body.appendChild iframe
+editor.observe (data) -&gt;
+  console.log data
+  $(&quot;.content&quot;).last().text JSON.stringify(data)</code></pre>
+</blockquote>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
 </div>
         </li>
         
