@@ -14,7 +14,7 @@ window["distri/json-widget:master"]({
     },
     "pixie.cson": {
       "path": "pixie.cson",
-      "content": "version: \"0.1.0\"\nremoteDependencies: [\n  \"https://code.jquery.com/jquery-1.11.0.min.js\"\n]\ndependencies:\n  observable: \"distri/observable:v0.2.0-pre.1\"\n  postmaster: \"distri/postmaster:v0.2.2\"\n  util: \"distri/util:v0.1.0\"\n  \"value-widget\": \"distri/value-widget:v0.1.2\"\n",
+      "content": "version: \"0.1.0\"\nremoteDependencies: [\n  \"https://code.jquery.com/jquery-1.11.0.min.js\"\n]\ndependencies:\n  observable: \"distri/observable:v0.2.0-pre.1\"\n  postmaster: \"distri/postmaster:v0.2.2\"\n  util: \"distri/util:v0.1.0\"\n  \"value-widget\": \"distri/value-widget:v0.1.3\"\n",
       "mode": "100644"
     },
     "main.coffee.md": {
@@ -51,7 +51,7 @@ window["distri/json-widget:master"]({
   "distribution": {
     "pixie": {
       "path": "pixie",
-      "content": "module.exports = {\"version\":\"0.1.0\",\"remoteDependencies\":[\"https://code.jquery.com/jquery-1.11.0.min.js\"],\"dependencies\":{\"observable\":\"distri/observable:v0.2.0-pre.1\",\"postmaster\":\"distri/postmaster:v0.2.2\",\"util\":\"distri/util:v0.1.0\",\"value-widget\":\"distri/value-widget:v0.1.2\"}};",
+      "content": "module.exports = {\"version\":\"0.1.0\",\"remoteDependencies\":[\"https://code.jquery.com/jquery-1.11.0.min.js\"],\"dependencies\":{\"observable\":\"distri/observable:v0.2.0-pre.1\",\"postmaster\":\"distri/postmaster:v0.2.2\",\"util\":\"distri/util:v0.1.0\",\"value-widget\":\"distri/value-widget:v0.1.3\"}};",
       "type": "blob"
     },
     "main": {
@@ -508,32 +508,32 @@ window["distri/json-widget:master"]({
       "source": {
         "LICENSE": {
           "path": "LICENSE",
-          "mode": "100644",
           "content": "The MIT License (MIT)\n\nCopyright (c) 2014 \n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
+          "mode": "100644",
           "type": "blob"
         },
         "README.md": {
           "path": "README.md",
-          "mode": "100644",
           "content": "value-widget\n============\n\nA mini value editor.\n",
+          "mode": "100644",
           "type": "blob"
         },
         "demo.styl": {
           "path": "demo.styl",
-          "mode": "100644",
           "content": "html\n  height: 100%\n\nbody\n  margin: 0\n  height: 100%\n\niframe\n  border: none\n  display: block\n  width: 100%\n  height: 100%\n",
+          "mode": "100644",
           "type": "blob"
         },
         "main.coffee.md": {
           "path": "main.coffee.md",
+          "content": "Value Widget\n============\n\nTie a widget to an observable.\n\n    Observable = require \"observable\"\n\n    module.exports = (I={}) ->\n      defaults I,\n        debug: false\n        width: 200\n        height: 200\n        value: null\n\n      observable = Observable(I.value)\n\n      if I.iframe\n        I.iframe.src = I.url if I.url\n        widget = I.iframe.contentWindow\n      else\n        widget = window.open I.url, null, \"width=#{I.width},height=#{I.height}\"\n\n      send = (method, params...) ->\n        widget.postMessage\n          method: method\n          params: params\n        , \"*\"\n\n      update = (newValue) ->\n        send \"value\", newValue\n\n      updating = false\n      observable.observe (newValue) ->\n        unless updating\n          update(newValue)\n\n      listener = ({data, source}) ->\n        return unless source is widget\n\n        if I.debug\n          console.log data\n\n        if data.status is \"ready\"\n          if I.options\n            send \"options\", I.options\n\n          if I.value?\n            update(I.value)\n\n        else if data.status is \"unload\"\n          window.removeEventListener \"message\", listener\n        else if value = data.value\n          updating = true\n          observable(value)\n          updating = false\n\n      window.addEventListener \"message\", listener\n\n      window.addEventListener \"unload\", ->\n        widget?.close()\n\n      observable.send = send\n\n      return observable\n\nHelpers\n-------\n\n    defaults = (target, objects...) ->\n      for object in objects\n        for name of object\n          unless target.hasOwnProperty(name)\n            target[name] = object[name]\n\n      return target\n\n    applyStylesheet = (style, id=\"primary\") ->\n      styleNode = document.createElement(\"style\")\n      styleNode.innerHTML = style\n      styleNode.id = id\n\n      if previousStyleNode = document.head.querySelector(\"style##{id}\")\n        previousStyleNode.parentNode.removeChild(prevousStyleNode)\n\n      document.head.appendChild(styleNode)\n\nExample\n-------\n\n    if PACKAGE.name is \"ROOT\"\n      applyStylesheet require \"./demo\"\n\n      testFrame = document.createElement \"iframe\"\n\n      document.body.appendChild testFrame\n\n      o = module.exports\n        iframe: testFrame\n        url: \"http://distri.github.io/text/\"\n        value: \"hsl(180, 100%, 50%)\"\n\n      o.observe (v) ->\n        console.log v\n\n      window.o = o\n",
           "mode": "100644",
-          "content": "Value Widget\n============\n\nTie a widget to an observable.\n\n    Observable = require \"observable\"\n\n    module.exports = (I={}) ->\n      defaults I,\n        debug: false\n        width: 200\n        height: 200\n        value: null\n\n      observable = Observable(I.value)\n\n      if I.iframe\n        I.iframe.src = I.url if I.url\n        widget = I.iframe.contentWindow\n      else\n        widget = window.open I.url, null, \"width=#{I.width},height=#{I.height}\"\n\n      send = (method, params...) ->\n        widget.postMessage\n          method: method\n          params: params\n        , \"*\"\n\n      update = (newValue) ->\n        send \"value\", newValue\n\n      updating = false\n      observable.observe (newValue) ->\n        unless updating\n          update(newValue)\n\n      listener = ({data, source}) ->\n        return unless source is widget\n\n        if I.debug\n          console.log data\n\n        if data.status is \"ready\"\n          if I.options\n            send \"options\", I.options\n\n          if I.value?\n            update(I.value)\n\n        else if data.status is \"unload\"\n          window.removeEventListener \"message\", listener\n        else if value = data.value\n          updating = true\n          observable(value)\n          updating = false\n\n      window.addEventListener \"message\", listener\n\n      window.addEventListener \"unload\", ->\n        widget.close()\n\n      observable.send = send\n\n      return observable\n\nHelpers\n-------\n\n    defaults = (target, objects...) ->\n      for object in objects\n        for name of object\n          unless target.hasOwnProperty(name)\n            target[name] = object[name]\n\n      return target\n\n    applyStylesheet = (style, id=\"primary\") ->\n      styleNode = document.createElement(\"style\")\n      styleNode.innerHTML = style\n      styleNode.id = id\n\n      if previousStyleNode = document.head.querySelector(\"style##{id}\")\n        previousStyleNode.parentNode.removeChild(prevousStyleNode)\n\n      document.head.appendChild(styleNode)\n\nExample\n-------\n\n    if PACKAGE.name is \"ROOT\"\n      applyStylesheet require \"./demo\"\n\n      testFrame = document.createElement \"iframe\"\n\n      document.body.appendChild testFrame\n\n      o = module.exports\n        iframe: testFrame\n        url: \"http://distri.github.io/text/\"\n        value: \"hsl(180, 100%, 50%)\"\n\n      o.observe (v) ->\n        console.log v\n\n      window.o = o\n",
           "type": "blob"
         },
         "pixie.cson": {
           "path": "pixie.cson",
+          "content": "version: \"0.1.3\"\ndependencies:\n  observable: \"distri/observable:v0.1.0\"\n",
           "mode": "100644",
-          "content": "version: \"0.1.2\"\ndependencies:\n  observable: \"distri/observable:v0.1.0\"\n",
           "type": "blob"
         }
       },
@@ -545,133 +545,28 @@ window["distri/json-widget:master"]({
         },
         "main": {
           "path": "main",
-          "content": "(function() {\n  var Observable, applyStylesheet, defaults, o, testFrame,\n    __slice = [].slice;\n\n  Observable = require(\"observable\");\n\n  module.exports = function(I) {\n    var listener, observable, send, update, updating, widget;\n    if (I == null) {\n      I = {};\n    }\n    defaults(I, {\n      debug: false,\n      width: 200,\n      height: 200,\n      value: null\n    });\n    observable = Observable(I.value);\n    if (I.iframe) {\n      if (I.url) {\n        I.iframe.src = I.url;\n      }\n      widget = I.iframe.contentWindow;\n    } else {\n      widget = window.open(I.url, null, \"width=\" + I.width + \",height=\" + I.height);\n    }\n    send = function() {\n      var method, params;\n      method = arguments[0], params = 2 <= arguments.length ? __slice.call(arguments, 1) : [];\n      return widget.postMessage({\n        method: method,\n        params: params\n      }, \"*\");\n    };\n    update = function(newValue) {\n      return send(\"value\", newValue);\n    };\n    updating = false;\n    observable.observe(function(newValue) {\n      if (!updating) {\n        return update(newValue);\n      }\n    });\n    listener = function(_arg) {\n      var data, source, value;\n      data = _arg.data, source = _arg.source;\n      if (source !== widget) {\n        return;\n      }\n      if (I.debug) {\n        console.log(data);\n      }\n      if (data.status === \"ready\") {\n        if (I.options) {\n          send(\"options\", I.options);\n        }\n        if (I.value != null) {\n          return update(I.value);\n        }\n      } else if (data.status === \"unload\") {\n        return window.removeEventListener(\"message\", listener);\n      } else if (value = data.value) {\n        updating = true;\n        observable(value);\n        return updating = false;\n      }\n    };\n    window.addEventListener(\"message\", listener);\n    window.addEventListener(\"unload\", function() {\n      return widget.close();\n    });\n    observable.send = send;\n    return observable;\n  };\n\n  defaults = function() {\n    var name, object, objects, target, _i, _len;\n    target = arguments[0], objects = 2 <= arguments.length ? __slice.call(arguments, 1) : [];\n    for (_i = 0, _len = objects.length; _i < _len; _i++) {\n      object = objects[_i];\n      for (name in object) {\n        if (!target.hasOwnProperty(name)) {\n          target[name] = object[name];\n        }\n      }\n    }\n    return target;\n  };\n\n  applyStylesheet = function(style, id) {\n    var previousStyleNode, styleNode;\n    if (id == null) {\n      id = \"primary\";\n    }\n    styleNode = document.createElement(\"style\");\n    styleNode.innerHTML = style;\n    styleNode.id = id;\n    if (previousStyleNode = document.head.querySelector(\"style#\" + id)) {\n      previousStyleNode.parentNode.removeChild(prevousStyleNode);\n    }\n    return document.head.appendChild(styleNode);\n  };\n\n  if (PACKAGE.name === \"ROOT\") {\n    applyStylesheet(require(\"./demo\"));\n    testFrame = document.createElement(\"iframe\");\n    document.body.appendChild(testFrame);\n    o = module.exports({\n      iframe: testFrame,\n      url: \"http://distri.github.io/text/\",\n      value: \"hsl(180, 100%, 50%)\"\n    });\n    o.observe(function(v) {\n      return console.log(v);\n    });\n    window.o = o;\n  }\n\n}).call(this);\n",
+          "content": "(function() {\n  var Observable, applyStylesheet, defaults, o, testFrame,\n    __slice = [].slice;\n\n  Observable = require(\"observable\");\n\n  module.exports = function(I) {\n    var listener, observable, send, update, updating, widget;\n    if (I == null) {\n      I = {};\n    }\n    defaults(I, {\n      debug: false,\n      width: 200,\n      height: 200,\n      value: null\n    });\n    observable = Observable(I.value);\n    if (I.iframe) {\n      if (I.url) {\n        I.iframe.src = I.url;\n      }\n      widget = I.iframe.contentWindow;\n    } else {\n      widget = window.open(I.url, null, \"width=\" + I.width + \",height=\" + I.height);\n    }\n    send = function() {\n      var method, params;\n      method = arguments[0], params = 2 <= arguments.length ? __slice.call(arguments, 1) : [];\n      return widget.postMessage({\n        method: method,\n        params: params\n      }, \"*\");\n    };\n    update = function(newValue) {\n      return send(\"value\", newValue);\n    };\n    updating = false;\n    observable.observe(function(newValue) {\n      if (!updating) {\n        return update(newValue);\n      }\n    });\n    listener = function(_arg) {\n      var data, source, value;\n      data = _arg.data, source = _arg.source;\n      if (source !== widget) {\n        return;\n      }\n      if (I.debug) {\n        console.log(data);\n      }\n      if (data.status === \"ready\") {\n        if (I.options) {\n          send(\"options\", I.options);\n        }\n        if (I.value != null) {\n          return update(I.value);\n        }\n      } else if (data.status === \"unload\") {\n        return window.removeEventListener(\"message\", listener);\n      } else if (value = data.value) {\n        updating = true;\n        observable(value);\n        return updating = false;\n      }\n    };\n    window.addEventListener(\"message\", listener);\n    window.addEventListener(\"unload\", function() {\n      return widget != null ? widget.close() : void 0;\n    });\n    observable.send = send;\n    return observable;\n  };\n\n  defaults = function() {\n    var name, object, objects, target, _i, _len;\n    target = arguments[0], objects = 2 <= arguments.length ? __slice.call(arguments, 1) : [];\n    for (_i = 0, _len = objects.length; _i < _len; _i++) {\n      object = objects[_i];\n      for (name in object) {\n        if (!target.hasOwnProperty(name)) {\n          target[name] = object[name];\n        }\n      }\n    }\n    return target;\n  };\n\n  applyStylesheet = function(style, id) {\n    var previousStyleNode, styleNode;\n    if (id == null) {\n      id = \"primary\";\n    }\n    styleNode = document.createElement(\"style\");\n    styleNode.innerHTML = style;\n    styleNode.id = id;\n    if (previousStyleNode = document.head.querySelector(\"style#\" + id)) {\n      previousStyleNode.parentNode.removeChild(prevousStyleNode);\n    }\n    return document.head.appendChild(styleNode);\n  };\n\n  if (PACKAGE.name === \"ROOT\") {\n    applyStylesheet(require(\"./demo\"));\n    testFrame = document.createElement(\"iframe\");\n    document.body.appendChild(testFrame);\n    o = module.exports({\n      iframe: testFrame,\n      url: \"http://distri.github.io/text/\",\n      value: \"hsl(180, 100%, 50%)\"\n    });\n    o.observe(function(v) {\n      return console.log(v);\n    });\n    window.o = o;\n  }\n\n}).call(this);\n",
           "type": "blob"
         },
         "pixie": {
           "path": "pixie",
-          "content": "module.exports = {\"version\":\"0.1.2\",\"dependencies\":{\"observable\":\"distri/observable:v0.1.0\"}};",
+          "content": "module.exports = {\"version\":\"0.1.3\",\"dependencies\":{\"observable\":\"distri/observable:v0.1.0\"}};",
           "type": "blob"
         }
       },
       "progenitor": {
-        "url": "http://strd6.github.io/editor/"
+        "url": "http://www.danielx.net/editor/"
       },
-      "version": "0.1.2",
+      "version": "0.1.3",
       "entryPoint": "main",
       "repository": {
-        "id": 17844287,
-        "name": "value-widget",
-        "full_name": "distri/value-widget",
-        "owner": {
-          "login": "distri",
-          "id": 6005125,
-          "avatar_url": "https://avatars.githubusercontent.com/u/6005125?",
-          "gravatar_id": "192f3f168409e79c42107f081139d9f3",
-          "url": "https://api.github.com/users/distri",
-          "html_url": "https://github.com/distri",
-          "followers_url": "https://api.github.com/users/distri/followers",
-          "following_url": "https://api.github.com/users/distri/following{/other_user}",
-          "gists_url": "https://api.github.com/users/distri/gists{/gist_id}",
-          "starred_url": "https://api.github.com/users/distri/starred{/owner}{/repo}",
-          "subscriptions_url": "https://api.github.com/users/distri/subscriptions",
-          "organizations_url": "https://api.github.com/users/distri/orgs",
-          "repos_url": "https://api.github.com/users/distri/repos",
-          "events_url": "https://api.github.com/users/distri/events{/privacy}",
-          "received_events_url": "https://api.github.com/users/distri/received_events",
-          "type": "Organization",
-          "site_admin": false
-        },
-        "private": false,
-        "html_url": "https://github.com/distri/value-widget",
-        "description": "A mini value editor.",
-        "fork": false,
-        "url": "https://api.github.com/repos/distri/value-widget",
-        "forks_url": "https://api.github.com/repos/distri/value-widget/forks",
-        "keys_url": "https://api.github.com/repos/distri/value-widget/keys{/key_id}",
-        "collaborators_url": "https://api.github.com/repos/distri/value-widget/collaborators{/collaborator}",
-        "teams_url": "https://api.github.com/repos/distri/value-widget/teams",
-        "hooks_url": "https://api.github.com/repos/distri/value-widget/hooks",
-        "issue_events_url": "https://api.github.com/repos/distri/value-widget/issues/events{/number}",
-        "events_url": "https://api.github.com/repos/distri/value-widget/events",
-        "assignees_url": "https://api.github.com/repos/distri/value-widget/assignees{/user}",
-        "branches_url": "https://api.github.com/repos/distri/value-widget/branches{/branch}",
-        "tags_url": "https://api.github.com/repos/distri/value-widget/tags",
-        "blobs_url": "https://api.github.com/repos/distri/value-widget/git/blobs{/sha}",
-        "git_tags_url": "https://api.github.com/repos/distri/value-widget/git/tags{/sha}",
-        "git_refs_url": "https://api.github.com/repos/distri/value-widget/git/refs{/sha}",
-        "trees_url": "https://api.github.com/repos/distri/value-widget/git/trees{/sha}",
-        "statuses_url": "https://api.github.com/repos/distri/value-widget/statuses/{sha}",
-        "languages_url": "https://api.github.com/repos/distri/value-widget/languages",
-        "stargazers_url": "https://api.github.com/repos/distri/value-widget/stargazers",
-        "contributors_url": "https://api.github.com/repos/distri/value-widget/contributors",
-        "subscribers_url": "https://api.github.com/repos/distri/value-widget/subscribers",
-        "subscription_url": "https://api.github.com/repos/distri/value-widget/subscription",
-        "commits_url": "https://api.github.com/repos/distri/value-widget/commits{/sha}",
-        "git_commits_url": "https://api.github.com/repos/distri/value-widget/git/commits{/sha}",
-        "comments_url": "https://api.github.com/repos/distri/value-widget/comments{/number}",
-        "issue_comment_url": "https://api.github.com/repos/distri/value-widget/issues/comments/{number}",
-        "contents_url": "https://api.github.com/repos/distri/value-widget/contents/{+path}",
-        "compare_url": "https://api.github.com/repos/distri/value-widget/compare/{base}...{head}",
-        "merges_url": "https://api.github.com/repos/distri/value-widget/merges",
-        "archive_url": "https://api.github.com/repos/distri/value-widget/{archive_format}{/ref}",
-        "downloads_url": "https://api.github.com/repos/distri/value-widget/downloads",
-        "issues_url": "https://api.github.com/repos/distri/value-widget/issues{/number}",
-        "pulls_url": "https://api.github.com/repos/distri/value-widget/pulls{/number}",
-        "milestones_url": "https://api.github.com/repos/distri/value-widget/milestones{/number}",
-        "notifications_url": "https://api.github.com/repos/distri/value-widget/notifications{?since,all,participating}",
-        "labels_url": "https://api.github.com/repos/distri/value-widget/labels{/name}",
-        "releases_url": "https://api.github.com/repos/distri/value-widget/releases{/id}",
-        "created_at": "2014-03-17T21:37:51Z",
-        "updated_at": "2014-03-27T00:10:48Z",
-        "pushed_at": "2014-03-27T00:10:47Z",
-        "git_url": "git://github.com/distri/value-widget.git",
-        "ssh_url": "git@github.com:distri/value-widget.git",
-        "clone_url": "https://github.com/distri/value-widget.git",
-        "svn_url": "https://github.com/distri/value-widget",
-        "homepage": null,
-        "size": 136,
-        "stargazers_count": 0,
-        "watchers_count": 0,
-        "language": "CSS",
-        "has_issues": true,
-        "has_downloads": true,
-        "has_wiki": true,
-        "forks_count": 0,
-        "mirror_url": null,
-        "open_issues_count": 0,
-        "forks": 0,
-        "open_issues": 0,
-        "watchers": 0,
+        "branch": "v0.1.3",
         "default_branch": "master",
-        "master_branch": "master",
-        "permissions": {
-          "admin": true,
-          "push": true,
-          "pull": true
-        },
-        "organization": {
-          "login": "distri",
-          "id": 6005125,
-          "avatar_url": "https://avatars.githubusercontent.com/u/6005125?",
-          "gravatar_id": "192f3f168409e79c42107f081139d9f3",
-          "url": "https://api.github.com/users/distri",
-          "html_url": "https://github.com/distri",
-          "followers_url": "https://api.github.com/users/distri/followers",
-          "following_url": "https://api.github.com/users/distri/following{/other_user}",
-          "gists_url": "https://api.github.com/users/distri/gists{/gist_id}",
-          "starred_url": "https://api.github.com/users/distri/starred{/owner}{/repo}",
-          "subscriptions_url": "https://api.github.com/users/distri/subscriptions",
-          "organizations_url": "https://api.github.com/users/distri/orgs",
-          "repos_url": "https://api.github.com/users/distri/repos",
-          "events_url": "https://api.github.com/users/distri/events{/privacy}",
-          "received_events_url": "https://api.github.com/users/distri/received_events",
-          "type": "Organization",
-          "site_admin": false
-        },
-        "network_count": 0,
-        "subscribers_count": 2,
-        "branch": "v0.1.2",
+        "full_name": "distri/value-widget",
+        "homepage": null,
+        "description": "A mini value editor.",
+        "html_url": "https://github.com/distri/value-widget",
+        "url": "https://api.github.com/repos/distri/value-widget",
         "publishBranch": "gh-pages"
       },
       "dependencies": {
