@@ -69,7 +69,8 @@ json =
 editor.<span class="literal">on</span> <span class="string">"dirty"</span>, -&gt;
   data = editor.getProps()
 
-  postmaster.sendToParent data</code></pre>
+  postmaster.sendToParent
+    value: data</code></pre>
 </div>
         </li>
         
@@ -105,7 +106,10 @@ postmaster.<span class="function"><span class="title">value</span></span> = (new
 
 <span class="function"><span class="title">log</span></span> = (data) -&gt;
   postmaster.sendToParent
-    log: data</code></pre>
+    log: data
+
+
+global.postmaster = postmaster</code></pre>
 </div>
         </li>
         
