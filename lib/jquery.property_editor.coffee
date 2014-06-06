@@ -57,8 +57,17 @@
 
       rowCheck()
 
-    addChangeEvents = (keyInput, valueInput) ->
-      keyInput.bind 'blur keyup', (e) ->
+    makeKeyInput = (key, valueFn) ->
+      input = $("<input>",
+        class: "key"
+        data:
+          previousName: key
+        type: "text"
+        placeholder: "key"
+        value: key
+      )
+
+      input.on 'input change', (e) ->
         $this = $(this)
 
         currentName = $this.val()
@@ -70,64 +79,46 @@
 
           return if currentName is ""
 
-          object[currentName] = valueInput.val()
+          object[currentName] = valueFn()
 
           processInputChanges()
 
-      valueInput.bind 'keydown', (e) ->
-        if e.shiftKey
-          $(this).attr('step', 10)
-        if e.altKey
-          $(this).attr('step', 0.1)
+      input
 
-      valueInput.bind 'blur keyup', (e) ->
+    makeValueInput = (type, value, keyFn) ->
+      input = $("<input>",
+        class: "value"
+        data:
+          previousValue: value
+        type: type
+        placeholder: "value"
+        value: value
+      ).on 'input change', (e) ->
         $this = $(this)
-
-        $this.removeAttr('step')
 
         currentValue = parse $this.val()
         previousValue = $this.data("previousValue")
 
         if currentValue isnt previousValue
-          return unless key = keyInput.val()
+          return unless key = keyFn()
 
           $this.data("previousValue", currentValue)
           object[key] = currentValue
 
           processInputChanges()
 
-    makeKeyInput = (key) ->
-      $("<input>",
-        class: "key"
-        data:
-          previousName: key
-        type: "text"
-        placeholder: "key"
-        value: key
-      )
-
     addRow = (key, value, options={}) ->
       row = $ "<div>",
         class: "row"
 
-      keyInput = makeKeyInput(key).appendTo(row)
+      valueFn = ->
+        parse valueInput.val()
 
-      unless typeof value == "string" || typeof value == "number"
-        value = JSON.stringify(value)
+      keyFn = ->
+        keyInput.val()
 
-      valueInputType = options.valueInputType || "input"
-      inputType = options.inputType || "text"
-
-      valueInput = $("<#{valueInputType}>",
-        class: "value"
-        data:
-          previousValue: value
-        type: inputType
-        placeholder: "value"
-        value: value
-      ).appendTo(row)
-
-      addChangeEvents(keyInput, valueInput)
+      keyInput = makeKeyInput(key, valueFn).appendTo(row)
+      valueInput = makeValueInput(options.inputType, value, keyFn).appendTo(row)
 
       return row.appendTo(element)
 
@@ -135,8 +126,10 @@
       row = $ "<div>",
         class: "row"
 
-      makeKeyInput(key).appendTo(row)
-      # TODO: Bind events
+      valueFn = ->
+        value
+
+      makeKeyInput(key, valueFn).appendTo(row)
 
       nestedEditor = $("<div>")
         .appendTo(row)
@@ -150,24 +143,7 @@
       return row.appendTo(element)
 
     addNestedArray = (key, value) ->
-      row = $ "<div>",
-        class: "row"
-
-      makeKeyInput(key).appendTo(row)
-      # TODO: Bind events
-
-      # TODO: Array editor shouldn't have keys
-      nestedEditor = $("<div>")
-        .appendTo(row)
-        .propertyEditor(value)
-
-      # Prevent event bubbling and retrigger with parent object
-      nestedEditor.bind "change", (event, changedNestedObject) ->
-        event.stopPropagation()
-        fireDirtyEvent()
-
-      # TODO: Attach to parent cell not element
-      return row.appendTo element
+      addNestedRow(key, value)
 
     element.setProps(properties)
 
