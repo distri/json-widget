@@ -190,7 +190,7 @@
     },
     "style.styl": {
       "path": "style.styl",
-      "content": "body\n  background-color: red\n\ninput.key\n  margin-left: 1em\n  text-align: right\n",
+      "content": "body\n  font-family: \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif\n\n\ninput\n  border: none\n\n  width: 100px\n\n  &.key\n    margin-left: 1em\n    text-align: right\n\n",
       "mode": "100644"
     },
     "node.haml": {
@@ -227,7 +227,7 @@
     },
     "style": {
       "path": "style",
-      "content": "module.exports = \"body {\\n  background-color: red;\\n}\\n\\ninput.key {\\n  margin-left: 1em;\\n  text-align: right;\\n}\";",
+      "content": "module.exports = \"body {\\n  font-family: \\\"HelveticaNeue-Light\\\", \\\"Helvetica Neue Light\\\", \\\"Helvetica Neue\\\", Helvetica, Arial, \\\"Lucida Grande\\\", sans-serif;\\n}\\n\\ninput {\\n  border: none;\\n  width: 100px;\\n}\\n\\ninput.key {\\n  margin-left: 1em;\\n  text-align: right;\\n}\";",
       "type": "blob"
     },
     "node": {
