@@ -1,0 +1,5 @@
+version: "0.1.0"
+dependencies:
+  observable: "distri/observable:v0.2.0-pre.0"
+  postmaster: "distri/postmaster:v0.2.2"
+  util: "distri/util:v0.1.0"
