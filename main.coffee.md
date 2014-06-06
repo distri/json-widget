@@ -57,7 +57,8 @@ Demo
 >     #! setup
 >     ValueWidget = require "value-widget"
 >     iframe = document.createElement("iframe")
->     editor = ValueWidget
+>     window.json = ValueWidget
+>       debug: true
 >       value:
 >         test: "data"
 >         array: [1, 2, 3]
@@ -69,6 +70,6 @@ Demo
 >       url: "http://distri.github.io/json-widget/"
 >
 >     document.body.appendChild iframe
->     editor.observe (data) ->
+>     json.observe (data) ->
 >       console.log data
->       $(".content").last().text JSON.stringify(data)
+>       $(".content").last().text JSON.stringify(data, null, 2)
