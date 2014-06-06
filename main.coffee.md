@@ -1,19 +1,28 @@
-Text Editor Value Widget
+JSON Value Widget
 ========================
 
-    Observable = require "observable"
+    global.Observable = require "observable"
     {applyStylesheet} = require "util"
 
 Create an editor, send events back to parent.
 
-    template = require "./editor"
-
-    editor =
-      json: Observable("{}")
-
-    document.body.appendChild(template())
+    require "./lib/jquery.property_editor"
 
     applyStylesheet(require "./style")
+
+    data =
+      test: "wat"
+      yolo: "jawsome!"
+      duder:
+        a: "radical"
+        b: "!?!?"
+        c: [
+          1
+          2
+          3
+        ]
+
+    $("<table>").propertyEditor(data).appendTo(document.body)
 
 Use the postmaster to send value to our parent, store our current value in it as well.
 

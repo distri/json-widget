@@ -1,5 +1,8 @@
 version: "0.1.0"
+remoteDependencies: [
+  "https://code.jquery.com/jquery-1.11.0.min.js"
+]
 dependencies:
-  observable: "distri/observable:v0.2.0-pre.0"
+  observable: "distri/observable:v0.2.0-pre.1"
   postmaster: "distri/postmaster:v0.2.2"
   util: "distri/util:v0.1.0"

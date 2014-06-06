@@ -1,0 +1,7 @@
+
+.node
+  - subtemplate = @subtemplate
+  - each @items, ->
+    .item
+      %input.key(value=@key)
+      %input.value(value=@value)
