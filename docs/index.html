@@ -48,8 +48,7 @@
               <p>Create an editor, send events back to parent.</p>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">ValueWidget = require <span class="string">"value-widget"</span>
-require <span class="string">"./lib/jquery.property_editor"</span>
+            <div class="content"><pre><code class="lang-coffeescript">require <span class="string">"./lib/jquery.property_editor"</span>
 
 applyStylesheet(require <span class="string">"./style"</span>)
 
@@ -67,46 +66,10 @@ json =
 
 jsonString = JSON.stringify(json, <span class="literal">null</span>, <span class="number">2</span>)
 
-iframe = document.createElement(<span class="string">"iframe"</span>)
-textEditorUrl = <span class="string">"http://distri.github.io/text/v0.1.1/"</span>
-
-$(iframe).load -&gt;
-  setTimeout -&gt;
-    updateText json
-    console.log <span class="string">"TIMEOUT"</span>, json
-  , <span class="number">1000</span>
-
-document.body.appendChild iframe
-textEditor = ValueWidget
-  value: <span class="string">""</span>
-  iframe: iframe
-  url: textEditorUrl
-  options:
-    mode: <span class="string">"json"</span>
-
-updatingText = <span class="literal">false</span>
-textEditor.observe (newValue) -&gt;
-  <span class="keyword">return</span> <span class="keyword">if</span> updatingText
-
-  <span class="keyword">try</span>
-    json = JSON.parse(newValue)
-    jsonEditor.setProps(json)
-  <span class="keyword">catch</span> e
-    ; <span class="comment"># TODO: Display error</span>
-
-<span class="function"><span class="title">updateText</span></span> = (data) -&gt;
-  newValue = JSON.stringify(data, <span class="literal">null</span>, <span class="number">2</span>)
-
-  updatingText = <span class="literal">true</span>
-  textEditor newValue
-  updatingText = <span class="literal">false</span>
-
 (jsonEditor = $(<span class="string">"&lt;div&gt;"</span>).propertyEditor(json)).appendTo(document.body)
 
 jsonEditor.<span class="literal">on</span> <span class="string">"dirty"</span>, -&gt;
   data = jsonEditor.getProps()
-
-  updateText data
 
   postmaster.sendToParent
     value: data</code></pre>
