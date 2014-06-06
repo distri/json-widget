@@ -68,7 +68,7 @@
           $this.data("previousName", currentName)
           delete object[previousName]
 
-          return if currentName.blank()
+          return if currentName is ""
 
           object[currentName] = valueInput.val()
 

@@ -10,7 +10,7 @@ Create an editor, send events back to parent.
 
     applyStylesheet(require "./style")
 
-    json = Observable
+    json =
       test: "wat"
       yolo: "jawsome!"
       duder:
@@ -22,10 +22,10 @@ Create an editor, send events back to parent.
           3
         ]
 
-    (editor = $("<div>").propertyEditor(json())).appendTo(document.body)
+    (editor = $("<div>").propertyEditor(json)).appendTo(document.body)
 
     editor.on "dirty", ->
-      console.log editor.getProps()
+      postmaster.sendToParent editor.getProps()
 
 Use the postmaster to send value to our parent, store our current value in it as well.
 
@@ -33,19 +33,13 @@ Use the postmaster to send value to our parent, store our current value in it as
     postmaster = require("postmaster")()
     postmaster.value = (newValue) ->
       updating = true
-      # TODO: Get updates from json changes
-      json(newValue)
+      editor.setProps newValue
       updating = false
 
 Expose a focus method to our parent.
 
     postmaster.focus = ->
       editor.focus()
-
-    json.observe (newValue) ->
-      unless updating
-        postmaster.sendToParent
-          value: newValue
 
     log = (data) ->
       postmaster.sendToParent
