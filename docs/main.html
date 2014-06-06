@@ -52,7 +52,7 @@
 
 applyStylesheet(require <span class="string">"./style"</span>)
 
-json = Observable
+json =
   test: <span class="string">"wat"</span>
   yolo: <span class="string">"jawsome!"</span>
   duder:
@@ -64,10 +64,10 @@ json = Observable
       <span class="number">3</span>
     ]
 
-(editor = $(<span class="string">"&lt;div&gt;"</span>).propertyEditor(json())).appendTo(document.body)
+(editor = $(<span class="string">"&lt;div&gt;"</span>).propertyEditor(json)).appendTo(document.body)
 
 editor.<span class="literal">on</span> <span class="string">"dirty"</span>, -&gt;
-  console.log editor.getProps()</code></pre>
+  postmaster.sendToParent editor.getProps()</code></pre>
 </div>
         </li>
         
@@ -84,8 +84,7 @@ editor.<span class="literal">on</span> <span class="string">"dirty"</span>, -&gt
 postmaster = require(<span class="string">"postmaster"</span>)()
 postmaster.<span class="function"><span class="title">value</span></span> = (newValue) -&gt;
   updating = <span class="literal">true</span>
-  <span class="comment"># TODO: Get updates from json changes</span>
-  json(newValue)
+  editor.setProps newValue
   updating = <span class="literal">false</span></code></pre>
 </div>
         </li>
@@ -101,11 +100,6 @@ postmaster.<span class="function"><span class="title">value</span></span> = (new
             </div>
             <div class="content"><pre><code class="lang-coffeescript">postmaster.<span class="function"><span class="title">focus</span></span> = -&gt;
   editor.focus()
-
-json.observe (newValue) -&gt;
-  <span class="keyword">unless</span> updating
-    postmaster.sendToParent
-      value: newValue
 
 <span class="function"><span class="title">log</span></span> = (data) -&gt;
   postmaster.sendToParent
