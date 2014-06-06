@@ -22,7 +22,7 @@ Create an editor, send events back to parent.
           3
         ]
 
-    $("<table>").propertyEditor(data).appendTo(document.body)
+    $("<div>").propertyEditor(data).appendTo(document.body)
 
 Use the postmaster to send value to our parent, store our current value in it as well.
 

@@ -1,13 +1,29 @@
+*
+  box-sizing: border-box
+
 body
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif
+  margin: 0
 
+.properties
+  padding-left: 1em
+
+body > .properties
+  padding-left: 0
 
 input
-  border: none
+  border: 1px solid rgba(0, 0, 0, 0.125)
+  border-left: none
+  
+  &:first-child
+    border-left: 1px solid rgba(0, 0, 0, 0.125)
+
+  margin: 0
+  
+  padding: 0 0.5em
 
   width: 100px
 
   &.key
-    margin-left: 1em
     text-align: right
 

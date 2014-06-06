@@ -40,7 +40,7 @@
 
     rowCheck = ->
       # If last row has data
-      if (input = element.find("tr").last().find("input").first()).length
+      if (input = element.find(".row").last().find("input").first()).length
         if input.val()
           addRow('', '')
       else # Or no rows
@@ -107,9 +107,10 @@
       )
 
     addRow = (key, value, options={}) ->
-      row = $ "<tr>"
+      row = $ "<div>",
+        class: "row"
 
-      keyInput = makeKeyInput(key).appendTo($("<td>").appendTo(row))
+      keyInput = makeKeyInput(key).appendTo(row)
 
       unless typeof value == "string" || typeof value == "number"
         value = JSON.stringify(value)
@@ -124,22 +125,22 @@
         type: inputType
         placeholder: "value"
         value: value
-      ).appendTo($("<td>").appendTo(row))
+      ).appendTo(row)
 
       addChangeEvents(keyInput, valueInput)
 
       return row.appendTo(element)
 
     addNestedRow = (key, value) ->
-      row = $("<tr>")
-      cell = $("<td colspan='2'>").appendTo(row)
+      row = $ "<div>",
+        class: "row"
 
-      makeKeyInput(key).appendTo(cell)
+      makeKeyInput(key).appendTo(row)
       # TODO: Bind events
 
-      nestedEditor = $("<table>",
-        class: "nested"
-      ).appendTo(cell).propertyEditor(value)
+      nestedEditor = $("<div>")
+        .appendTo(row)
+        .propertyEditor(value)
 
       # Prevent event bubbling and retrigger with parent object
       nestedEditor.bind "change", (event, changedNestedObject) ->
@@ -149,16 +150,16 @@
       return row.appendTo(element)
 
     addNestedArray = (key, value) ->
-      row = $("<tr>")
-      cell = $("<td colspan='2'>").appendTo(row)
+      row = $ "<div>",
+        class: "row"
 
-      makeKeyInput(key).appendTo(cell)
+      makeKeyInput(key).appendTo(row)
       # TODO: Bind events
 
       # TODO: Array editor shouldn't have keys
-      nestedEditor = $("<table>",
-        class: "nested"
-      ).appendTo(cell).propertyEditor(value)
+      nestedEditor = $("<div>")
+        .appendTo(row)
+        .propertyEditor(value)
 
       # Prevent event bubbling and retrigger with parent object
       nestedEditor.bind "change", (event, changedNestedObject) ->
