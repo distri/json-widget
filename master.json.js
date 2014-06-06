@@ -24,7 +24,7 @@ window["distri/json-widget:master"]({
     },
     "style.styl": {
       "path": "style.styl",
-      "content": "*\n  box-sizing: border-box\n\nbody\n  font-family: \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif\n  margin: 0\n\n.properties\n  padding-left: 1em\n\nbody > .properties\n  padding-left: 0\n\ninput\n  border: 1px solid rgba(0, 0, 0, 0.125)\n  border-left: none\n  \n  &:first-child\n    border-left: 1px solid rgba(0, 0, 0, 0.125)\n\n  margin: 0\n  \n  padding: 0 0.5em\n\n  width: 100px\n\n  &.key\n    text-align: right\n\n",
+      "content": "*\n  box-sizing: border-box\n\nbody\n  font-family: \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif\n  margin: 0\n\n.properties\n  padding-left: 1em\n\nbody > .properties\n  padding-left: 0\n\n.row\n  //WTF?\n  margin: -2px 0 -1px 0 \n\ninput\n  border: 1px solid rgba(0, 0, 0, 0.125)\n  border-left: none\n  \n  &:first-child\n    border-left: 1px solid rgba(0, 0, 0, 0.125)\n\n  margin: 0\n  \n  padding: 0 0.5em\n\n  width: 100px\n\n  &.key\n    text-align: right\n\n",
       "mode": "100644"
     },
     "node.haml": {
@@ -61,7 +61,7 @@ window["distri/json-widget:master"]({
     },
     "style": {
       "path": "style",
-      "content": "module.exports = \"* {\\n  -ms-box-sizing: border-box;\\n  -moz-box-sizing: border-box;\\n  -webkit-box-sizing: border-box;\\n  box-sizing: border-box;\\n}\\n\\nbody {\\n  font-family: \\\"HelveticaNeue-Light\\\", \\\"Helvetica Neue Light\\\", \\\"Helvetica Neue\\\", Helvetica, Arial, \\\"Lucida Grande\\\", sans-serif;\\n  margin: 0;\\n}\\n\\n.properties {\\n  padding-left: 1em;\\n}\\n\\nbody > .properties {\\n  padding-left: 0;\\n}\\n\\ninput {\\n  border: 1px solid rgba(0, 0, 0, 0.125);\\n  border-left: none;\\n  margin: 0;\\n  padding: 0 0.5em;\\n  width: 100px;\\n}\\n\\ninput:first-child {\\n  border-left: 1px solid rgba(0, 0, 0, 0.125);\\n}\\n\\ninput.key {\\n  text-align: right;\\n}\";",
+      "content": "module.exports = \"* {\\n  -ms-box-sizing: border-box;\\n  -moz-box-sizing: border-box;\\n  -webkit-box-sizing: border-box;\\n  box-sizing: border-box;\\n}\\n\\nbody {\\n  font-family: \\\"HelveticaNeue-Light\\\", \\\"Helvetica Neue Light\\\", \\\"Helvetica Neue\\\", Helvetica, Arial, \\\"Lucida Grande\\\", sans-serif;\\n  margin: 0;\\n}\\n\\n.properties {\\n  padding-left: 1em;\\n}\\n\\nbody > .properties {\\n  padding-left: 0;\\n}\\n\\n.row {\\n  margin: -2px 0 -1px 0;\\n}\\n\\ninput {\\n  border: 1px solid rgba(0, 0, 0, 0.125);\\n  border-left: none;\\n  margin: 0;\\n  padding: 0 0.5em;\\n  width: 100px;\\n}\\n\\ninput:first-child {\\n  border-left: 1px solid rgba(0, 0, 0, 0.125);\\n}\\n\\ninput.key {\\n  text-align: right;\\n}\";",
       "type": "blob"
     },
     "node": {
