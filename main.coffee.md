@@ -27,7 +27,6 @@ Create an editor, send events back to parent.
     editor.on "dirty", ->
       data = editor.getProps()
 
-      console.log data
       postmaster.sendToParent data
 
 Use the postmaster to send value to our parent, store our current value in it as well.
