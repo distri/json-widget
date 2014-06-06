@@ -85,7 +85,7 @@
 
         $this.removeAttr('step')
 
-        currentValue = $this.val().parse()
+        currentValue = parse $this.val()
         previousValue = $this.data("previousValue")
 
         if currentValue isnt previousValue
@@ -172,3 +172,9 @@
     element.setProps(properties)
 
 )(jQuery)
+
+parse = (string) ->
+  try
+    JSON.parse(string)
+  catch
+    string
