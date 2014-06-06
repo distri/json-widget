@@ -6,4 +6,4 @@ dependencies:
   observable: "distri/observable:v0.2.0-pre.1"
   postmaster: "distri/postmaster:v0.2.2"
   util: "distri/util:v0.1.0"
-  "value-widget": "distri/value-widget:v0.1.2"
+  "value-widget": "distri/value-widget:v0.1.3"
