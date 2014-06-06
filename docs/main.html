@@ -137,7 +137,8 @@ global.postmaster = postmaster</code></pre>
 <pre><code>#! setup
 ValueWidget = require &quot;value-widget&quot;
 iframe = document.createElement(&quot;iframe&quot;)
-editor = ValueWidget
+window.json = ValueWidget
+  debug: true
   value:
     test: &quot;data&quot;
     array: [1, 2, 3]
@@ -149,9 +150,9 @@ editor = ValueWidget
   url: &quot;http://distri.github.io/json-widget/&quot;
 
 document.body.appendChild iframe
-editor.observe (data) -&gt;
+json.observe (data) -&gt;
   console.log data
-  $(&quot;.content&quot;).last().text JSON.stringify(data)</code></pre>
+  $(&quot;.content&quot;).last().text JSON.stringify(data, null, 2)</code></pre>
 </blockquote>
 
             </div>
