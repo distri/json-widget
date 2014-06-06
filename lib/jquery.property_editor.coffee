@@ -28,9 +28,6 @@
             addNestedArray(key, value)
           else if typeof value is "object"
             addNestedRow(key, value)
-          else if $.isNumeric(value)
-            addRow key, value,
-              inputType: 'number'
           else
             addRow(key, value)
 

@@ -6,7 +6,6 @@ JSON Value Widget
 
 Create an editor, send events back to parent.
 
-    ValueWidget = require "value-widget"
     require "./lib/jquery.property_editor"
 
     applyStylesheet(require "./style")
@@ -25,46 +24,10 @@ Create an editor, send events back to parent.
 
     jsonString = JSON.stringify(json, null, 2)
 
-    iframe = document.createElement("iframe")
-    textEditorUrl = "http://distri.github.io/text/v0.1.1/"
-
-    $(iframe).load ->
-      setTimeout ->
-        updateText json
-        console.log "TIMEOUT", json
-      , 1000
-
-    document.body.appendChild iframe
-    textEditor = ValueWidget
-      value: ""
-      iframe: iframe
-      url: textEditorUrl
-      options:
-        mode: "json"
-
-    updatingText = false
-    textEditor.observe (newValue) ->
-      return if updatingText
-
-      try
-        json = JSON.parse(newValue)
-        jsonEditor.setProps(json)
-      catch e
-        ; # TODO: Display error
-
-    updateText = (data) ->
-      newValue = JSON.stringify(data, null, 2)
-
-      updatingText = true
-      textEditor newValue
-      updatingText = false
-
     (jsonEditor = $("<div>").propertyEditor(json)).appendTo(document.body)
 
     jsonEditor.on "dirty", ->
       data = jsonEditor.getProps()
-
-      updateText data
 
       postmaster.sendToParent
         value: data

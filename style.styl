@@ -15,7 +15,7 @@ body
 
 body > .properties
   padding-left: 0
-  width: 50%
+  width: 100%
   height: 100%
   position: absolute
   top: 0
@@ -25,6 +25,22 @@ body > .properties
 .row
   //WTF?
   margin: -2px 0 -1px 0 
+
+.dealies
+  .row
+    &::after
+      content: ","
+  
+    &:last-child
+      &::after
+        content: ""
+
+    &:first-child
+      &::before
+        content: "{"
+    &:last-child
+      &::after
+        content: "}"
 
 input
   border: 1px solid rgba(0, 0, 0, 0.125)
