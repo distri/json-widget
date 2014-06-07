@@ -5,7 +5,7 @@ html
   height: 100%
 
 body
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif
+  font-family: droid sans mono,monospace,courier new,courier,sans-serif
   height: 100%
   margin: 0
   overflow: hidden
@@ -17,8 +17,8 @@ body
 
   & > .toggle
     position: absolute
-    left: 120px
-    top: -18px
+    left: -10px
+    top: -16px
     &::after
       content: "▼"
 
@@ -28,13 +28,12 @@ body
       display: none
     
     & > .toggle
-      top: 0
-      left: 5px
+      top: 0px
+      left: -210px
       &::after
         content: "▶"
 
 body > .properties
-  padding-left: 0
   width: 100%
   height: 100%
   position: absolute
@@ -49,52 +48,12 @@ body > .properties
   //WTF?
   margin: -2px 0 -1px 0 
 
-.dealies
-  .properties > .row
-    &::after
-      content: ","
-  
-    &:last-child
-      &::after
-        content: ""
-  
-    &:first-child
-      &::before
-        content: "{"
-    &:last-child
-      &::after
-        content: "}"
-  
-  .array > .row
-    &::after
-      content: ","
-  
-    &:last-child
-      &::after
-        content: ""
-  
-    &:first-child
-      &::before
-        content: "["
-    &:last-child
-      &::after
-        content: "]"
-
 input
-  border: 1px solid rgba(0, 0, 0, 0.125)
-  border-left: none
-  
-  &:first-child
-    border-left: 1px solid rgba(0, 0, 0, 0.125)
-
+  border: none
+  font-family: droid sans mono,monospace,courier new,courier,sans-serif
   margin: 0
-  
   padding: 0 0.5em
-
-  width: 100px
-
-  &.key
-    text-align: right
+  width: 140px
 
 iframe
   border: none

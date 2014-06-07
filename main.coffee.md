@@ -11,7 +11,6 @@ Create an editor, send events back to parent.
     applyStylesheet(require "./style")
 
     json = require "./sample"
-    
 
     jsonString = JSON.stringify(json, null, 2)
 

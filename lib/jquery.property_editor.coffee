@@ -166,9 +166,9 @@
       makeKeyInput(key, valueFn).appendTo(row)
 
       if Array.isArray(value)
-        row.append(" : [")
+        row.append(" : [ ]")
       else if typeof value is "object"
-        row.append(" : {")
+        row.append(" : { }")
 
       nestedEditor = $("<div>")
         .appendTo(row)
@@ -178,11 +178,6 @@
       nestedEditor.bind "change", (event, changedNestedObject) ->
         event.stopPropagation()
         fireDirtyEvent()
-      
-      if Array.isArray(value)
-        row.append(" ]")
-      else if typeof value is "object"
-        row.append(" }")
 
       return row.appendTo(element)
 
