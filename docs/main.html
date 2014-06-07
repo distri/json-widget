@@ -71,6 +71,8 @@ jsonString = JSON.stringify(json, <span class="literal">null</span>, <span class
 jsonEditor.<span class="literal">on</span> <span class="string">"dirty"</span>, -&gt;
   data = jsonEditor.getProps()
 
+  console.log data
+
   postmaster.sendToParent
     value: data</code></pre>
 </div>
