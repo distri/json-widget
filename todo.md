@@ -3,7 +3,10 @@ TODO
 
 Collapse/expand objects
 
+Expand [] and {} into nested components
+
 Array's should display index on mouseover
+
 
 ToMaybe
 -------
