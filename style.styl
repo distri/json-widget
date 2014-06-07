@@ -11,7 +11,23 @@ body
   overflow: hidden
 
 .properties, .array
+  position: relative
   padding-left: 1em
+
+  & > .toggle
+    position: absolute
+    left: 0
+    top: 0
+    &::after
+      content: "▼"
+
+  &.collapsed    
+    .row
+      display: none
+    
+    & > .toggle
+      &::after
+        content: "▶"
 
 body > .properties
   padding-left: 0
@@ -21,6 +37,9 @@ body > .properties
   top: 0
   right: 0
   overflow: auto
+
+  & > .toggle
+    display: none
 
 .row
   //WTF?

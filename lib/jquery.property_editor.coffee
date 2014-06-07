@@ -18,6 +18,11 @@
 
       element.html('')
 
+      element.append $ "<div>",
+        class: "toggle"
+        click: ->
+          element.toggleClass("collapsed")
+
       Object.keys(object).forEach (key) ->
         value = object[key]
 
