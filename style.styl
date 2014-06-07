@@ -16,16 +16,19 @@ body
 
   & > .toggle
     position: absolute
-    left: 0
-    top: 0
+    left: 120px
+    top: -18px
     &::after
       content: "▼"
 
-  &.collapsed    
+  &.collapsed
+    display: inline
     .row
       display: none
     
     & > .toggle
+      top: 0
+      left: 5px
       &::after
         content: "▶"
 

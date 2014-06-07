@@ -10,17 +10,8 @@ Create an editor, send events back to parent.
 
     applyStylesheet(require "./style")
 
-    json =
-      test: "wat"
-      yolo: "jawsome!"
-      duder:
-        a: "radical"
-        b: "!?!?"
-        c: [
-          1
-          2
-          3
-        ]
+    json = require "./sample"
+    
 
     jsonString = JSON.stringify(json, null, 2)
 
