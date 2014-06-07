@@ -49,7 +49,7 @@ window["distri/json-widget:master"]({
     },
     "todo.md": {
       "path": "todo.md",
-      "content": "TODO\n====\n\nCollapse/expand objects\n\nArray's should display index on mouseover\n\nToMaybe\n-------\n\nInsert at top instead of at bottom (has implications for array order)\n\nDone\n----\n\ndeleting by backspace\n\nenter to go to next cell\n\nbraces and brackets for nested object and array displays\n\narrays shouldn't display index and index shouldn't be editable\n",
+      "content": "TODO\n====\n\nCollapse/expand objects\n\nExpand [] and {} into nested components\n\nArray's should display index on mouseover\n\n\nToMaybe\n-------\n\nInsert at top instead of at bottom (has implications for array order)\n\nDone\n----\n\ndeleting by backspace\n\nenter to go to next cell\n\nbraces and brackets for nested object and array displays\n\narrays shouldn't display index and index shouldn't be editable\n",
       "mode": "100644"
     }
   },
