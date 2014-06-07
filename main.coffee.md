@@ -29,6 +29,8 @@ Create an editor, send events back to parent.
     jsonEditor.on "dirty", ->
       data = jsonEditor.getProps()
 
+      console.log data
+
       postmaster.sendToParent
         value: data
 

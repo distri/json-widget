@@ -10,7 +10,7 @@ body
   margin: 0
   overflow: hidden
 
-.properties
+.properties, .array
   padding-left: 1em
 
 body > .properties
@@ -27,20 +27,35 @@ body > .properties
   margin: -2px 0 -1px 0 
 
 .dealies
-  .row
+  .properties > .row
     &::after
       content: ","
   
     &:last-child
       &::after
         content: ""
-
+  
     &:first-child
       &::before
         content: "{"
     &:last-child
       &::after
         content: "}"
+  
+  .array > .row
+    &::after
+      content: ","
+  
+    &:last-child
+      &::after
+        content: ""
+  
+    &:first-child
+      &::before
+        content: "["
+    &:last-child
+      &::after
+        content: "]"
 
 input
   border: 1px solid rgba(0, 0, 0, 0.125)

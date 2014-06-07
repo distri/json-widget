@@ -1,43 +1,38 @@
 (($) ->
 
-  $.fn.propertyEditor = (properties) ->
-    properties ||= {}
+  $.fn.propertyEditor = (properties={}, options={}) ->
     object = properties
 
     element = this.eq(0)
-    element.addClass("properties")
+    if Array.isArray(object)
+      element.addClass("array")
+    else
+      element.addClass("properties")
 
     element.getProps = ->
       object
 
-    element.setProps = (properties) ->
-      properties ||= {}
+    element.setProps = (properties={}) ->
+      # TODO: Check for arrays
       object = properties
 
       element.html('')
 
-      if properties
-        propertiesArray = []
-        for key, value of properties
-          propertiesArray.push [key, value]
+      Object.keys(object).forEach (key) ->
+        value = object[key]
 
-        propertiesArray.sort().forEach (pair) ->
-          [key, value] = pair
+        if typeof value is "object"
+          addNestedRow(key, value)
+        else
+          addRow(key, value)
 
-          if Array.isArray(value)
-            addNestedArray(key, value)
-          else if typeof value is "object"
-            addNestedRow(key, value)
-          else
-            addRow(key, value)
-
-      addRow('', '')
+      rowCheck()
 
       element
 
     rowCheck = ->
       # If last row has data
-      if (input = element.find(".row").last().find("input").first()).length
+      if (input = element.children(".row").last().find("input").first()).length
         if input.val()
           addRow('', '')
       else # Or no rows
@@ -82,12 +77,11 @@
 
       input
 
-    makeValueInput = (type, value, keyFn) ->
+    makeValueInput = (value, keyFn) ->
       input = $("<input>",
         class: "value"
         data:
           previousValue: value
-        type: type
         placeholder: "value"
         value: value
       ).on 'input change', (e) ->
@@ -104,18 +98,22 @@
 
           processInputChanges()
 
-    addRow = (key, value, options={}) ->
+    addRow = (key, value) ->
       row = $ "<div>",
         class: "row"
 
       valueFn = ->
         parse valueInput.val()
 
-      keyFn = ->
-        keyInput.val()
+      if Array.isArray(object)
+        keyFn = ->
+          valueInput.parent().index()
+      else
+        keyInput = makeKeyInput(key, valueFn).appendTo(row)
+        keyFn = ->
+          keyInput.val()
 
-      keyInput = makeKeyInput(key, valueFn).appendTo(row)
-      valueInput = makeValueInput(options.inputType, value, keyFn).appendTo(row)
+      valueInput = makeValueInput(value, keyFn).appendTo(row)
 
       return row.appendTo(element)
 
@@ -128,6 +126,11 @@
 
       makeKeyInput(key, valueFn).appendTo(row)
 
+      if Array.isArray(value)
+        row.append(" : [")
+      else if typeof value is "object"
+        row.append(" : {")
+
       nestedEditor = $("<div>")
         .appendTo(row)
         .propertyEditor(value)
@@ -136,11 +139,13 @@
       nestedEditor.bind "change", (event, changedNestedObject) ->
         event.stopPropagation()
         fireDirtyEvent()
+      
+      if Array.isArray(value)
+        row.append(" ]")
+      else if typeof value is "object"
+        row.append(" }")
 
       return row.appendTo(element)
-
-    addNestedArray = (key, value) ->
-      addNestedRow(key, value)
 
     element.setProps(properties)
 
