@@ -5,6 +5,11 @@ deleting by backspace
 
 Array's should display index on mouseover
 
+ToMaybe
+-------
+
+Insert at top instead of at bottom (has implications for array order)
+
 Done
 ----
 

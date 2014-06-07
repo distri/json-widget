@@ -59,7 +59,7 @@
         value: key
       )
 
-      input.on 'input change', (e) ->
+      input.on('input change', (e) ->
         $this = $(this)
 
         currentName = $this.val()
@@ -74,17 +74,26 @@
           object[currentName] = valueFn()
 
           processInputChanges()
+      ).on "keydown", (e) ->
+        if input.val() is "" and e.keyCode is 8
+          # Just remove the whole row becaus we assue it's been removed from the
+          # call to delete in a prevous change event
+          prevInput = input.parent().prev().find("input").last()
+          setTimeout ->
+            prevInput.focus()
+
+          input.parent().remove()
 
       input
 
-    makeValueInput = (value, keyFn) ->
+    makeValueInput = (value, keyFn, removeFn) ->
       input = $("<input>",
         class: "value"
         data:
           previousValue: value
         placeholder: "value"
         value: value
-      ).on 'input change', (e) ->
+      ).on('input change', (e) ->
         $this = $(this)
 
         currentValue = parse $this.val()
@@ -97,6 +106,10 @@
           object[key] = currentValue
 
           processInputChanges()
+      ).on('keydown', (e) ->
+        if $(this).val() is "" and e.keyCode is 8
+          removeFn()
+      )
 
     addRow = (key, value) ->
       row = $ "<div>",
@@ -108,12 +121,24 @@
       if Array.isArray(object)
         keyFn = ->
           valueInput.parent().index()
+        removeFn = ->
+          object.splice(keyFn(), 1)
+
+          prevInput = valueInput.parent().prev().find("input").last()
+          setTimeout ->
+            prevInput.focus()
+
+          row.remove()
       else
         keyInput = makeKeyInput(key, valueFn).appendTo(row)
         keyFn = ->
           keyInput.val()
 
-      valueInput = makeValueInput(value, keyFn).appendTo(row)
+        removeFn = ->
+          setTimeout ->
+            valueInput.prev().focus()
+
+      valueInput = makeValueInput(value, keyFn, removeFn).appendTo(row)
 
       return row.appendTo(element)
 
