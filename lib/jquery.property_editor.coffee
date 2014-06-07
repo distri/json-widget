@@ -31,6 +31,7 @@
       element
 
     rowCheck = ->
+      debugger
       # If last row has data
       if (input = element.children(".row").last().find("input").first()).length
         if input.val()
@@ -75,6 +76,12 @@
 
           processInputChanges()
       ).on "keydown", (e) ->
+        if e.keyCode is 13
+          # Next input
+          nextInput = input.next("input").first() or input.next().find("input").first()
+          setTimeout ->
+            nextInput.focus()
+            
         if input.val() is "" and e.keyCode is 8
           # Just remove the whole row becaus we assue it's been removed from the
           # call to delete in a prevous change event
@@ -100,7 +107,7 @@
         previousValue = $this.data("previousValue")
 
         if currentValue isnt previousValue
-          return unless key = keyFn()
+          key = keyFn()
 
           $this.data("previousValue", currentValue)
           object[key] = currentValue
@@ -109,6 +116,12 @@
       ).on('keydown', (e) ->
         if $(this).val() is "" and e.keyCode is 8
           removeFn()
+        
+        if e.keyCode is 13
+          # Next input
+          nextInput = input.parent().next().find("input").first()
+          setTimeout ->
+            nextInput.focus()
       )
 
     addRow = (key, value) ->
