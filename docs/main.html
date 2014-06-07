@@ -52,17 +52,8 @@
 
 applyStylesheet(require <span class="string">"./style"</span>)
 
-json =
-  test: <span class="string">"wat"</span>
-  yolo: <span class="string">"jawsome!"</span>
-  duder:
-    a: <span class="string">"radical"</span>
-    b: <span class="string">"!?!?"</span>
-    c: [
-      <span class="number">1</span>
-      <span class="number">2</span>
-      <span class="number">3</span>
-    ]
+json = require <span class="string">"./sample"</span>
+
 
 jsonString = JSON.stringify(json, <span class="literal">null</span>, <span class="number">2</span>)
 
