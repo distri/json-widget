@@ -9,6 +9,8 @@
     else
       element.addClass("properties")
 
+    element.addClass "collapsed" if options.collapsed
+
     element.getProps = ->
       object
 
@@ -36,12 +38,7 @@
       element
 
     rowCheck = ->
-      # If last row has data
-      if (input = element.children(".row").last().find("input").first()).length
-        if input.val()
-          addRow('', '')
-      else # Or no rows
-        addRow('', '')
+
 
     fireDirtyEvent = ->
       try
@@ -175,7 +172,7 @@
 
       nestedEditor = $("<div>")
         .appendTo(row)
-        .propertyEditor(value)
+        .propertyEditor(value, collapsed: true)
 
       # Prevent event bubbling and retrigger with parent object
       nestedEditor.bind "change", (event, changedNestedObject) ->
