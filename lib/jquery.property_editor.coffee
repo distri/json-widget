@@ -31,7 +31,6 @@
       element
 
     rowCheck = ->
-      debugger
       # If last row has data
       if (input = element.children(".row").last().find("input").first()).length
         if input.val()
